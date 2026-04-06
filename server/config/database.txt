@@ -1,0 +1,37 @@
+CREATE TABLE customers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    address TEXT,
+    pan_card VARCHAR(20),
+    gst_number VARCHAR(20),
+    status BOOLEAN DEFAULT TRUE,
+);
+
+
+CREATE TABLE items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    selling_price DECIMAL(10,2) NOT NULL,
+    status BOOLEAN DEFAULT TRUE,
+);
+
+
+CREATE TABLE invoices (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    invoice_id VARCHAR(20) NOT NULL UNIQUE,
+    customer_id INT NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    gst_amount DECIMAL(10,2) DEFAULT 0,
+    total_amount DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
+CREATE TABLE invoice_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    invoice_id VARCHAR(20) NOT NULL,
+    item_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (invoice_id) REFERENCES invoices(invoice_id),
+    FOREIGN KEY (item_id) REFERENCES items(id)
+);
